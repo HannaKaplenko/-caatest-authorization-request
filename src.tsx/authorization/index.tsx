@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {styles} from './styles';
 import {
   Text,
@@ -13,6 +13,24 @@ export const Authorization = () => {
     email: ' ',
     password: ' ',
   });
+  const [timer, setTimer] = useState(0);
+  const [textColor, setTextColor] = useState('black');
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer(prev => (prev >= 10 ? 0 : prev + 1));
+    }, 2000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (timer >= 8) {
+      setTextColor('red');
+    } else {
+      setTextColor('black');
+    }
+  }, [timer]);
 
   const OnChangeLogin = (text: string) => {
     setForm(prev => ({...form, email: text}));
@@ -26,13 +44,13 @@ export const Authorization = () => {
   const onAuthorize = async () => {
     // const [error, setError] = useState ("")
     try {
-        console.log ("Form:", form);
+      console.log('Form:', form);
       const response = await fetch('https://api-aac.opdev.pp.ua/api/auth', {
         method: 'POST',
         headers: {
           'X-Partner': 'dev',
           'Content-Type': 'application/json',
-          "Accept": 'application/json',
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           email: form.email,
@@ -44,7 +62,7 @@ export const Authorization = () => {
     } catch (error) {
       console.error('Error:', error);
     }
-  }
+  };
 
   return (
     <SafeAreaView>
@@ -80,6 +98,9 @@ export const Authorization = () => {
           <TouchableOpacity style={styles.button} onPress={onAuthorize}>
             <Text style={styles.buttonText}>Увійти</Text>
           </TouchableOpacity>
+          <Text style={[styles.timerText, {color: textColor}]}>
+            Timer:{timer}
+          </Text>
         </View>
       </View>
     </SafeAreaView>

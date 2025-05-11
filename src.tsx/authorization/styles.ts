@@ -88,7 +88,20 @@ lineHeight: 32,
         fontSize: 16,
         fontWeight: 'bold',
 
-    }
+    }, 
+
+    timerText: {
+        color: "FFFFFF",
+        fontWeight: "bold",
+       textAlign: "center",
+       margin: 30,
+
+    },
+
+    redText: {
+        color: "red",
+        fontWeight: "bold",
+    },
 
 
 })
